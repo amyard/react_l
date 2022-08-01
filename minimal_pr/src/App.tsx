@@ -6,6 +6,8 @@ import { IProduct } from './models';
 import { useProducts } from './hooks/product';
 import { Loader } from './components/Loader';
 import { ErrorMessage } from './components/ErrorMessage';
+import { Modal } from './components/Modal';
+import { CreateProduct } from './components/CreateProduct';
 
 function App() {
   //return e('h1', {}, 'Hello from JS');
@@ -35,8 +37,9 @@ function App() {
       {/* not use such syntax
       {products.map((product, index) =><Product product={product} key={index} />)} */}
 
-      {/* <Product product={products[0]} />
-      <Product product={products[1]} /> */}
+      <Modal title="Create new product">
+        <CreateProduct />
+      </Modal>
     </div>
   );
 }
