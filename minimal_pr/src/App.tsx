@@ -25,6 +25,7 @@ function App() {
   // ])
 
   const {products, error, loading} = useProducts();
+  const [modal, setModal] = useState(true);
   
   // jsx syntax
   return (
@@ -37,9 +38,9 @@ function App() {
       {/* not use such syntax
       {products.map((product, index) =><Product product={product} key={index} />)} */}
 
-      <Modal title="Create new product">
-        <CreateProduct />
-      </Modal>
+      {modal && <Modal title="Create new product">
+        <CreateProduct onCreate={() => setModal(false)} />
+      </Modal>}
     </div>
   );
 }

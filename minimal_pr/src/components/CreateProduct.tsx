@@ -1,12 +1,46 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { IProduct } from "../models";
+import { ErrorMessage } from "./ErrorMessage";
+
+const productData: IProduct = {
+    title: 'test product',
+    price: 13.5,
+    description: 'lorem ipsum set',
+    image: 'https://i.pravatar.cc',
+    category: 'electronic',
+    rating: {
+        rate: 42,
+        count: 10
+    }
+};
+
+// дабы отслеживать, что продукт создан, создаем метод  onCreate()
+interface CreateProductProps {
+    onCreate: () => void
+}
+
 
 // дабы не перезагружалосб, нужно отменить поведение по умолчанию
-export function CreateProduct(){
+export function CreateProduct({onCreate}: CreateProductProps){
 
     const [value, setValue] = useState('');
+    const [error, setError] = useState('');
 
-    const submitHandler = (event: React.FormEvent) => {
+    const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault();
+        setError('');
+
+        // some validation
+        if (value.trim().length === 0) {
+            setError("Please enter valid title.");
+            return ;
+        }
+        productData.title = value;
+
+        // send data to server
+        const response = await axios.post<IProduct>('https://fakestoreapi.com/products', productData);
+        onCreate();
     }
 
     const changeHander = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -16,11 +50,13 @@ export function CreateProduct(){
     return (
         <form onSubmit={submitHandler}>
             <input type="text" className="border py-2 px-4 mb-2 w-full outline-0" 
-            placeholder="Enter product title ..." 
-            value = {value} 
-            // onChange={event => setValue(event.target.value)} />
-            // provide onChange - to fill the input
-            onChange={changeHander} />
+                placeholder="Enter product title ..." 
+                value = {value} 
+                // onChange={event => setValue(event.target.value)} />
+                // provide onChange - to fill the input
+                onChange={changeHander} />
+
+            {error && <ErrorMessage error={error} />}
 
             <button type="submit" className="py-2 px-4 border bg-yellow-400 hover:text-white">Create</button>
         </form>
