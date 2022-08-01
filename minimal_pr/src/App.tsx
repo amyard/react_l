@@ -25,7 +25,7 @@ function App() {
   // ])
 
   const {products, error, loading, addProduct} = useProducts();
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   // add addtional product after creating a new one
   const createHandler = (product: IProduct) => {
@@ -44,9 +44,12 @@ function App() {
       {/* not use such syntax
       {products.map((product, index) =><Product product={product} key={index} />)} */}
 
-      {modal && <Modal title="Create new product">
+      {modal && <Modal title="Create new product" onClose={() => setModal(false)}>
         <CreateProduct onCreate={createHandler} />
       </Modal>}
+
+      <button className='fixed bottom-5 right-5 rounded-full bg-red-700 text-white text-2xl px-4 py-2'
+      onClick={() => setModal(true)}>+</button>
     </div>
   );
 }
