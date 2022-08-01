@@ -1,7 +1,8 @@
-import React, {createElement as e, useState} from 'react';
-import logo from './logo.svg';
+import React, {createElement as e, useEffect, useState} from 'react';
 import {Product} from './components/Product';
-import {products} from './data/products';
+// import {products} from './data/products';
+import axios from 'axios';
+import { IProduct } from './models';
 
 function App() {
   //return e('h1', {}, 'Hello from JS');
@@ -18,16 +19,30 @@ function App() {
   //   }, 'Click me.'),
   // ])
 
+  // useState([]) - by default wwe don't have data after starting the app
+  // [products, setProducts] - products - first position, setProducts - second action after running
+  const [products, setProducts] = useState<IProduct[]>([]);
+
+  async function fetchProducts() {
+    const response = await axios.get<IProduct[]>('https://fakestoreapi.com/products?limit=5');
+    setProducts(response.data);
+  }
+
+  // если передила [] то он вызовется только один раз, когда реакт будет готов
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   // jsx syntax
   return (
     <div className='container mx-auto max-w-2xl pt-5'>
-      {/* <Product 
-        product={products[0]} 
-        title="test1 syntax" 
-        title2={'test2 syntax'} /> */}
+    {products.map(product =><Product product={product} key={product.id} />)}
+    
+    {/* not use such syntax
+    {products.map((product, index) =><Product product={product} key={index} />)} */}
 
-    <Product product={products[0]} />
-    <Product product={products[1]} />
+    {/* <Product product={products[0]} />
+    <Product product={products[1]} /> */}
     </div>
   );
 }
