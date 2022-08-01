@@ -1,4 +1,4 @@
-import React, {createElement as e, useEffect, useState} from 'react';
+import React, {createElement as e, useContext, useEffect, useState} from 'react';
 import {Product} from './components/Product';
 // import {products} from './data/products';
 import axios, { AxiosError } from 'axios';
@@ -8,6 +8,7 @@ import { Loader } from './components/Loader';
 import { ErrorMessage } from './components/ErrorMessage';
 import { Modal } from './components/Modal';
 import { CreateProduct } from './components/CreateProduct';
+import { ModalContext } from './context/ModalContext';
 
 function App() {
   //return e('h1', {}, 'Hello from JS');
@@ -25,11 +26,13 @@ function App() {
   // ])
 
   const {products, error, loading, addProduct} = useProducts();
-  const [modal, setModal] = useState(false);
+  //const [modal, setModal] = useState(false);
+  const {modal, open, close: closeModal} = useContext(ModalContext);
 
   // add addtional product after creating a new one
   const createHandler = (product: IProduct) => {
-    setModal(false);
+    //setModal(false);
+    closeModal();
     addProduct(product);
   }
   
@@ -44,12 +47,12 @@ function App() {
       {/* not use such syntax
       {products.map((product, index) =><Product product={product} key={index} />)} */}
 
-      {modal && <Modal title="Create new product" onClose={() => setModal(false)}>
+      {modal && <Modal title="Create new product" onClose={closeModal}>
         <CreateProduct onCreate={createHandler} />
       </Modal>}
 
       <button className='fixed bottom-5 right-5 rounded-full bg-red-700 text-white text-2xl px-4 py-2'
-      onClick={() => setModal(true)}>+</button>
+      onClick={open}>+</button>
     </div>
   );
 }
