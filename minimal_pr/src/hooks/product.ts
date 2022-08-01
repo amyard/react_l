@@ -12,6 +12,11 @@ export function useProducts() {
 
   const [error, setError] = useState('');
 
+  // add additional product after creating new product
+  function addProduct(product: IProduct) {
+    setProducts(prev => [...prev, product]);
+  }
+
   async function fetchProducts() {
     try {
       setError('');
@@ -35,5 +40,5 @@ export function useProducts() {
     fetchProducts();
   }, []);
 
-  return {products, error, loading};
+  return {products, error, loading, addProduct};
 }

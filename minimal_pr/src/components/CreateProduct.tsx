@@ -17,7 +17,7 @@ const productData: IProduct = {
 
 // дабы отслеживать, что продукт создан, создаем метод  onCreate()
 interface CreateProductProps {
-    onCreate: () => void
+    onCreate: (product: IProduct) => void
 }
 
 
@@ -40,7 +40,7 @@ export function CreateProduct({onCreate}: CreateProductProps){
 
         // send data to server
         const response = await axios.post<IProduct>('https://fakestoreapi.com/products', productData);
-        onCreate();
+        onCreate(response.data);
     }
 
     const changeHander = (event: React.KeyboardEvent<HTMLInputElement>) => {

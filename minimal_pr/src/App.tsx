@@ -24,8 +24,14 @@ function App() {
   //   }, 'Click me.'),
   // ])
 
-  const {products, error, loading} = useProducts();
+  const {products, error, loading, addProduct} = useProducts();
   const [modal, setModal] = useState(true);
+
+  // add addtional product after creating a new one
+  const createHandler = (product: IProduct) => {
+    setModal(false);
+    addProduct(product);
+  }
   
   // jsx syntax
   return (
@@ -39,7 +45,7 @@ function App() {
       {products.map((product, index) =><Product product={product} key={index} />)} */}
 
       {modal && <Modal title="Create new product">
-        <CreateProduct onCreate={() => setModal(false)} />
+        <CreateProduct onCreate={createHandler} />
       </Modal>}
     </div>
   );
