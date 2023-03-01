@@ -1,0 +1,12 @@
+#root {
+  margin: 16px;
+}
+
+button {
+  width: 24px;
+  height: 24px;
+}
+
+.history-button-li {
+  width: 200px;
+}
