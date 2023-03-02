@@ -14,26 +14,6 @@ const GroupedTeamMembers = ({employees, selectedTeam, setTeam}) => {
         })
         
         return teams;
-        
-        // let teamName = 'TeamA';
-        // let teamMembers = employees.filter((employee) => employee.teamName === teamName);
-        // let team = { team: teamName, members: teamMembers, collapsed: selectedTeam !== teamName };
-        // teams.push(team);
-        //
-        // teamName = 'TeamB';
-        // teamMembers = employees.filter((employee) => employee.teamName === teamName);
-        // team = { team: teamName, members: teamMembers, collapsed: selectedTeam !== teamName };
-        // teams.push(team);
-        //
-        // teamName = 'TeamC';
-        // teamMembers = employees.filter((employee) => employee.teamName === teamName);
-        // team = { team: teamName, members: teamMembers, collapsed: selectedTeam !== teamName };
-        // teams.push(team);
-        //
-        // teamName = 'TeamD';
-        // teamMembers = employees.filter((employee) => employee.teamName === teamName);
-        // team = { team: teamName, members: teamMembers, collapsed: selectedTeam !== teamName };
-        // teams.push(team);
     }
     
     function handleTeamClick(event) {
