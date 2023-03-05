@@ -23,8 +23,26 @@ const useWordle = (solution) => {
     
     // handle keyup event and track current guess
     // if user presses Enter, start a new game
-    const handleKeyup = () => {
+    const handleKeyup = ({key}) => {
         
+        // delete last characters
+        if(key === 'Backspace') {
+            setCurrentGuess((prev) => {
+                return prev.slice(0, -1);
+            })
+            
+            return ;
+        }
+        
+        // to remove Shift/Ctrl/Delete and so on buttons , we add check
+        if(/^[A-Za-z]$/.test(key)) {
+            // only 5 char words can be used here
+            if(currentGuess.length < 5) {
+                setCurrentGuess((prev) => {
+                    return prev + key;
+                })
+            }
+        }
     }
     
     return {turn, currentGuess, guesses, isCorrect, handleKeyup}
