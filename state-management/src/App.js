@@ -104,7 +104,7 @@ function UserForm() {
 /*  useReducer section  */
 
 /*  monitoring state section  */
-function ListOfNumbers() {
+function ListOfNumbersUseMemo() {
     // USEMEMO - using for calculation. not for simple calculation - memory lost
     const numbers = useState([10,20,30]);
     const total = useMemo(
@@ -139,6 +139,23 @@ function ListOfNumbers() {
         </>
     )
 }
+function SortedListForUseCallback({list}) {
+    // runned as many as current component if rendering
+    console.log("SortedListForUseCallback render.") 
+    
+    const sortedList = useMemo(() => {
+        // will run only twice --> because of using react 18
+        console.log("Running sort");
+        return [...list].sort();
+    }, [list]);
+    return <div>{sortedList.join(", ")}</div>
+}
+
+function SortListForUseCallback() {
+    const [names] = useState(["max","alex","lol","awe"]);
+    
+    return <><SortedListForUseCallback list={names} /></>
+}
 /*  monitoring state section  */
 
 function App() {
@@ -150,7 +167,8 @@ function App() {
           {/*<SomeReducer />*/}
           <UserForm />
           <hr/>
-          <ListOfNumbers />
+          <ListOfNumbersUseMemo />
+          <SortListForUseCallback />
       </div>
   )
 }
