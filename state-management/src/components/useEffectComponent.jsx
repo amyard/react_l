@@ -10,23 +10,47 @@ export function GetData() {
             .then((data) => setNames(data));
     }, []);
     
-    const [selectedName, setSelectedName] = useState(null);
     const [selectedNameDetails, setSelectedNameDetails] = useState(null);
     
-    useEffect(() => {
-        if(selectedName) {
-            fetch(`/data/${selectedName}.json`)
-                .then((response) => response.json())
-                .then((data) => setSelectedNameDetails(data));
-        }
-    }, [selectedName]);
+    const onSelectedChange = (name) => {
+        fetch(`/data/${name}.json`)
+            .then((response) => response.json())
+            .then((data) => setNames(data));
+    }
     
     return (
         <>
             <div>
-                {names.map((name) => <button key={name} onClick={()=>setSelectedName(name)}>{name}</button>)}
+                {names.map((name) => <button key={name} onClick={()=>onSelectedChange(name)}>{name}</button>)}
             </div>
             <div>{JSON.stringify(selectedNameDetails)}</div>
         </>
     )
+}
+
+export function StopWatch() {
+    const [time, setTime] = useState(0);
+    
+    // useEffect(() => {
+    //     setInterval(() => {
+    //         //console.log(time);
+    //         // CORRECT VERSION OF DOING.
+    //         setTime((time) => {
+    //             //console.log(time);
+    //             return time + 1
+    //         });
+    //     }, 1000);
+    // }, []);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setTime((time) => {
+                return time + 1
+            });
+        }, 1000);
+        
+        return () => clearInterval(intervalId)
+    }, []);
+    
+    return <div>Time: {time}</div>
 }

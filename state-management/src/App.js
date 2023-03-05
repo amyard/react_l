@@ -4,17 +4,7 @@ import {Counter, NameList} from "./components/useStateComponent";
 import {SomeReducer, UserForm} from "./components/useReducerComponent";
 import {ListOfNumbersUseMemo} from "./components/useMemoComponent";
 import {SortListForUseCallback} from "./components/useCallbackComponent";
-import {GetData} from "./components/useEffectComponent";
-
-
-/*  useReducer section  */
-
-/*  useReducer section  */
-
-/*  monitoring state section  */
-
-
-/*  monitoring state section  */
+import {GetData, StopWatch} from "./components/useEffectComponent";
 
 function App() {
   return (
@@ -28,6 +18,7 @@ function App() {
           {/*<ListOfNumbersUseMemo />*/}
           {/*<SortListForUseCallback />*/}
           <GetData />
+          <StopWatch />
       </div>
   )
 }
