@@ -5,6 +5,7 @@ import {SomeReducer, UserForm} from "./components/useReducerComponent";
 import {ListOfNumbersUseMemo} from "./components/useMemoComponent";
 import {SortListForUseCallback} from "./components/useCallbackComponent";
 import {GetData, StopWatch} from "./components/useEffectComponent";
+import {InputRef} from "./components/useRefComponent";
 
 function App() {
   return (
@@ -17,8 +18,9 @@ function App() {
           <hr/>
           {/*<ListOfNumbersUseMemo />*/}
           {/*<SortListForUseCallback />*/}
-          <GetData />
-          <StopWatch />
+          {/*<GetData />*/}
+          {/*<StopWatch />*/}
+          <InputRef />
       </div>
   )
 }
