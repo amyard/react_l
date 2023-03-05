@@ -11,7 +11,7 @@ const useWordle = (solution) => {
     // format a guess into an array of letter objects
     // e.g. [{key: "a", color: "yellow"}]
     const formatGuess = () => {
-        
+        console.log("formatting the guess  ", currentGuess);
     }
     
     // add new guess to the guesses state
@@ -24,6 +24,26 @@ const useWordle = (solution) => {
     // handle keyup event and track current guess
     // if user presses Enter, start a new game
     const handleKeyup = ({key}) => {
+        
+        if(key === 'Enter') {
+            // only add guess if turn is less than 5
+            if(turn > 5) {
+                console.log("you use all your guesses")
+                return ;
+            }
+            // do not allow duplicate words
+            if(history.includes(currentGuess)) {
+                console.log("you already tried the word")
+                return ;
+            }
+            // check word is chars long
+            if(currentGuess.length !== 5) {
+                console.log("word must be 5 char long")
+                return ;
+            }
+            
+            formatGuess();
+        }
         
         // delete last characters
         if(key === 'Backspace') {
