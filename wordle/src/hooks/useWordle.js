@@ -2,6 +2,12 @@
 
 const useWordle = (solution) => {
 
+    var COLOR = {
+      GREY: 'grey', 
+      GREEN: 'green',
+      YELLOW: 'yellow',
+    };
+    
     const [turn, setTurn] = useState(0)
     const [currentGuess, setCurrentGuess] = useState('')
     const [guesses, setGuesses] = useState([]) // each guess is an array
@@ -11,7 +17,28 @@ const useWordle = (solution) => {
     // format a guess into an array of letter objects
     // e.g. [{key: "a", color: "yellow"}]
     const formatGuess = () => {
-        console.log("formatting the guess  ", currentGuess);
+        let solutionArray = [...solution]
+        let formattedGuess = [...currentGuess].map((l) => {
+            return {key: l, color: COLOR.GREY}
+        })
+        
+        // find any green letters
+        formattedGuess.forEach((l, index) => {
+            if(solutionArray[index] === l.key) {
+                formattedGuess[index].color = COLOR.GREEN;
+                solutionArray[index] = null;
+            }
+        })
+        
+        // find amu yellow colors
+        formattedGuess.forEach((l, index) => {
+            if(solutionArray.includes(l.key) && l.color !== COLOR.GREEN) {
+                formattedGuess[index].color = COLOR.YELLOW;
+                solutionArray[solutionArray.indexOf(l.key)] = null;
+            }
+        })
+        
+        return formattedGuess;
     }
     
     // add new guess to the guesses state
@@ -42,7 +69,8 @@ const useWordle = (solution) => {
                 return ;
             }
             
-            formatGuess();
+            const formatted = formatGuess();
+            console.log(formatted)
         }
         
         // delete last characters
