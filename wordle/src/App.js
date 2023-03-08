@@ -4,7 +4,7 @@ import Wordle from "./components/Wordle";
 function App() {
     const [solution, setSolution] = useState(null);
     useEffect(() => {
-        fetch('./data/db.json')
+        fetch('./data/words.json')
             .then(res => res.json())
             .then(json => {
                 // random int between 0 and 14
