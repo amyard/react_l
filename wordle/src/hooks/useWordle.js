@@ -13,6 +13,7 @@ const useWordle = (solution) => {
     const [guesses, setGuesses] = useState([...Array(6)]) // array of six element
     const [history, setHistory] = useState([]) // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false)
+    const [usedKeys, setUsedKeys] = useState({}) // {a: 'green', b: 'yellow'}
     
     // format a guess into an array of letter objects
     // e.g. [{key: "a", color: "yellow"}]
@@ -63,6 +64,30 @@ const useWordle = (solution) => {
             return prevTurn + 1;
         })
         
+        setUsedKeys((prevUsedKeys) => {
+            let newKeys = {...prevUsedKeys}
+            formattedGuess.forEach((letter) => {
+                const currentColor = newKeys[letter.key]
+                
+                if(letter.color === COLOR.GREEN) {
+                    newKeys[letter.key] = COLOR.GREEN;
+                    return
+                }
+
+                if(letter.color === COLOR.YELLOW && currentColor !== COLOR.GREEN) {
+                    newKeys[letter.key] = COLOR.YELLOW;
+                    return
+                }
+
+                if(letter.color === COLOR.GREY && currentColor !== COLOR.GREEN  && currentColor !== COLOR.YELLOW) {
+                    newKeys[letter.key] = COLOR.GREY;
+                    return
+                }
+            })
+            
+            return newKeys;
+        })
+        
         setCurrentGuess('')
     }
     
@@ -73,17 +98,14 @@ const useWordle = (solution) => {
         if(key === 'Enter') {
             // only add guess if turn is less than 5
             if(turn > 5) {
-                console.log("you use all your guesses")
                 return ;
             }
             // do not allow duplicate words
             if(history.includes(currentGuess)) {
-                console.log("you already tried the word")
                 return ;
             }
             // check word is chars long
             if(currentGuess.length !== 5) {
-                console.log("word must be 5 char long")
                 return ;
             }
             
@@ -111,7 +133,7 @@ const useWordle = (solution) => {
         }
     }
     
-    return {turn, currentGuess, guesses, isCorrect, handleKeyup}
+    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup}
 }
 
 export default useWordle;
